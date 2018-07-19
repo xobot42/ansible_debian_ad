@@ -1,0 +1,9 @@
+---
+  - name: change /etc/nsswitch.conf
+    lineinfile:
+      path: /etc/nsswitch.conf
+      regexp: '^{{ item }}'
+      line: "{{ item }}\t\t\tcompat winbind"
+    with_items:
+      - 'passwd:'
+      - 'group:'

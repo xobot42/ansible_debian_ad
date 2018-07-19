@@ -1,0 +1,14 @@
+---
+  - name: Setting dns-servers
+    template:
+      src: resolv.conf.j2
+      dest: '/etc/resolv.conf'
+      owner: root
+      group: root
+      backup: yes
+
+  - name: Restar network
+    service:
+      name: networking
+      state: restarted
+

@@ -1,0 +1,20 @@
+---
+  - name: Set pam
+    template:
+      src: common-auth.j2
+      dest: '/etc/pam.d/common-auth'
+      owner: root
+      group: root
+      backup: yes
+
+  - name: copy common* files
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: root
+      group: root
+      backup: yes
+    with_items:
+      - { src: 'common-account', dest: '/etc/pam.d/common-account' }
+      - { src: 'common-password', dest: '/etc/pam.d/common-password' }
+      - { src: 'common-session', dest: '/etc/pam.d/common-session' }

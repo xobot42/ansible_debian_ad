@@ -1,0 +1,11 @@
+---
+  - name: Change limits
+    raw: ulimit -n 16384
+  
+  - name: Change /etc/security/limits.conf
+    lineinfile: 
+      path: /etc/security/limits.conf
+      line: "{{ item }}"
+    with_items:
+      - "*\t\t\t-\tnofile\t\t\t16384"
+      - "root\t\t-\tnofile\t\t\t16384"

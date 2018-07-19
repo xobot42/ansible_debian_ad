@@ -1,0 +1,8 @@
+---
+  - name: join to domain
+    raw: net ads join -U {{ domain_admin }}%{{ admin_pass }} -D {{ ad_domain|upper }}
+    register: domain_answer
+
+  - name: debug domain_answer
+    debug: var=domain_answer.stdout_lines
+

@@ -1,0 +1,12 @@
+---
+  - include: soft.yml
+  - include: dns.yml
+  - include: hosts.yml
+  - include: ntp.yml
+  - include: krb5.yml
+  - include: samba.yml
+  - include: join_to_domain.yml
+  - include: limits.yml
+  - include: winbind.yml
+  - include: nsswitch.yml
+  - include: pam.yml

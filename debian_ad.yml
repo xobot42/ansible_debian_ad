@@ -1,0 +1,12 @@
+---
+- hosts: nspiridonov-lin
+  vars_prompt:
+    - name: domain_admin
+      prompt: "Enter domain_admin name"
+      private: no
+    - name: admin_pass
+      prompt: "Enter admin_pass"
+      private: yes
+      
+  roles:
+    - debian_ad

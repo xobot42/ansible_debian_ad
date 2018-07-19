@@ -1,0 +1,10 @@
+ad_sever_ip: {ad_server_ip}
+workgroup: { domain }
+ad_domain: { domain.ru }
+ad_server: { ad_server.domain.ru }
+ad_server2: { ad_server2.domain.ru }
+
+dns_server: { dns_server_ip }
+dns_server2: { dns_server2_ip }
+
+ad_admin_group: { domain_admin_group }

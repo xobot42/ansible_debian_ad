@@ -1,0 +1,13 @@
+---
+  - name: Install packages
+    apt: name={{ item }} update_cache=yes state=latest
+    with_items:
+      - krb5-user
+      - samba
+      - smbclient
+      - winbind
+      - libpam-krb5
+      - libpam-winbind
+      - libnss-winbind
+      - ntp
+

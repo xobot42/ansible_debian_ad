@@ -1,0 +1,13 @@
+---
+  - name: Setting samba
+    template:
+      src: smb.conf.j2
+      dest: '/etc/samba/smb.conf'
+      owner: root
+      group: root
+      backup: yes
+
+  - name: Stopping smbd
+    service: 
+      name: smbd 
+      state: restarted

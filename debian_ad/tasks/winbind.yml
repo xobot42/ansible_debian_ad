@@ -1,0 +1,16 @@
+---
+  - name: Stopping smbd and winbind
+    service: 
+      name: "{{ item }}"
+      state: stopped
+    with_items:
+      - winbind
+      - smbd
+
+  - name: Starting smbd and winbind
+    service:
+      name: "{{ item }}"
+      state: started
+    with_items:
+      - smbd
+      - winbind
