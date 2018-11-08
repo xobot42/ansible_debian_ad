@@ -1,0 +1,20 @@
+  <!-- Firewall rule for zabbix --> 
+  <ConfigRoot>
+  <service id='9999'>                         
+   <id>zabbix</id>                     
+   <rule id='9999'>                  
+         <direction>outbound</direction>      
+         <protocol>tcp</protocol>
+         <porttype>dst</porttype>
+         <port>10051</port>                                    
+   </rule>                           
+   <rule id='9998'>                 
+         <direction>inbound</direction>
+         <protocol>tcp</protocol>    
+         <porttype>dst</porttype>    
+         <port>10050</port>     
+   </rule>                           
+     <enabled>true</enabled>        
+     <required>false</required>       
+   </service>  
+ </ConfigRoot>

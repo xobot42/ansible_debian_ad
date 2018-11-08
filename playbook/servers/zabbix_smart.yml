@@ -1,0 +1,4 @@
+---
+- hosts: {{ HOSTS }}
+  roles:
+    - zabbix_smart

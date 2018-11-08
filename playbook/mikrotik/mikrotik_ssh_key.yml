@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    password: {{ PASSWORD }}
+
+  tasks: 
+    - name: copy ssh_key
+      local_action: raw sshpass -p {{password}} scp -r /root/.ssh/id_rsa.pub admin@{{item}}:/flash 
+      loop: "{{ query('inventory_hostnames', 'mikrotik-ap') }}" 
+
+    - name: enable ssh_key
+      local_action: raw sshpass -p {{password}} ssh admin@{{item}} 'user ssh-keys import user=admin public-key-file=flash/id_rsa.pub'
+      loop: "{{ query('inventory_hostnames', 'mikrotik-ap') }}"

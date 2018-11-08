@@ -1,0 +1,26 @@
+---
+- name: Install packages
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - python3-pip
+    - python-pip
+    - smartmontools
+    - sg3-utils
+
+- name: Create folders
+  file: path={{ item }} state=directory
+  with_items:
+    - /etc/zabbix/scripts
+
+- name: Copy smart scripts
+  copy: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode=755
+  with_items:
+    - { src: 'pyzabbix_send_smart.py', dest: '/etc/zabbix/scripts/pyzabbix_send_smart.py' }
+
+- name: Install py-zabbix
+  pip: name=py-zabbix executable=pip3
+
+- name: Add to cron zabbix_send_smart.py
+  cron: name='zabbix smart' minute='*/10' job=/etc/zabbix/scripts/pyzabbix_send_smart.py user=root
+  norify:
+    - cron restart

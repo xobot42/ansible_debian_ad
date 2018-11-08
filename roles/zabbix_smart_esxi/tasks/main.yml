@@ -1,0 +1,24 @@
+---
+- name: Copy files ( decimal.py number.py pyzabbix pyzabbix2_send_smart.py zabbix.xml smartmontools)
+  copy: src={{ item.src }} dest={{ item.dest }} owner=root group=root mode={{ item.mode }}
+  with_items:
+    - { src: 'decimal.py', dest: '/lib/python2.7/site-packages', mode: 444}
+    - { src: 'numbers.py', dest: '/lib/python2.7/site-packages', mode: 444}
+    - { src: 'pyzabbix', dest: '/lib/python2.7/site-packages', directory_mode: 755, mode: 444}
+    - { src: 'pyzabbix2_send_smart.py', dest: '/opt', mode: 755}
+    - { src: 'smartmontools', dest: '/opt', directory_mode: 755, mode: 555 }
+    - { src: 'zabbix.xml', dest: '/etc/vmware/firewall', mode: 444}
+    - { src: 'smart', dest: '/scratch', directory_mode: 755, mode: 555 }
+    - { src: 'local.sh', dest: '/etc/rc.local.d/', mode: 1777 }
+
+- name: restart firewall
+  raw: esxcli network firewall refresh
+
+- name: add task to crontab
+  lineinfile: path=/var/spool/cron/crontabs/root line='*/10 * * * * /usr/bin/python /opt/pyzabbix2_send_smart.py'
+
+- name: restart crontab
+  raw: kill -HUP $(cat /var/run/crond.pid) && /usr/bin/crond
+
+- name: raw command auto-backup.sh
+  raw: /bin/auto-backup.sh

@@ -1,0 +1,4 @@
+---
+- name: cron restart
+  service: name=cron state=restarted
+

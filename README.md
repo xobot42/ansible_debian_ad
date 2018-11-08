@@ -1,2 +1,2 @@
-# ansible_debian_ad
-Role for ansible to join debian-server in AD
+# ansible
+some playbooks and roles for ansible

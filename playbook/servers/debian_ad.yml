@@ -1,5 +1,5 @@
 ---
-- hosts: nspiridonov-lin
+- hosts: {{ HOSTS }}
   vars_prompt:
     - name: domain_admin
       prompt: "Enter domain_admin name"
