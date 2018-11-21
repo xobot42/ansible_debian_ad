@@ -1,0 +1,4 @@
+---
+#  - gather_facts: no          
+  - include: mikrotik_ssh_key.yml
+  - include: mikrotik_upgrade.yml 

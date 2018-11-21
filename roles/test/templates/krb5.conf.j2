@@ -1,0 +1,50 @@
+[libdefaults]
+	default_realm = {{ ad_domain|upper }}
+
+	krb4_config = /etc/krb.conf
+	krb4_realms = /etc/krb.realms
+	kdc_timesync = 1
+	ccache_type = 4
+	forwardable = true
+	proxiable = true
+
+
+	default_tgs_enctypes = aes256-cts-hmac-sha1-96 rc4-hmac des-cbc-crc des-cbc-md5
+	default_tkt_enctypes = aes256-cts-hmac-sha1-96 rc4-hmac des-cbc-crc des-cbc-md5
+	permitted_enctypes = aes256-cts-hmac-sha1-96 rc4-hmac des-cbc-crc des-cbc-md5
+
+	v4_instance_resolve = false
+	v4_name_convert = {
+		host = {
+			rcmd = host
+			ftp = ftp
+		}
+		plain = {
+			something = something-else
+		}
+	}
+	fcc-mit-ticketflags = true
+
+[realms]
+	{{ ad_domain|upper }} = {
+		kdc = {{ ad_server }}
+		kdc = {{ ad_server2 }}
+		admin_server = {{ ad_server }}
+		default_domain = {{ ad_domain|upper }}
+	}
+	
+[domain_realm]
+	.{{ ad_domain }} = {{ ad_domain|upper }}
+	{{ ad_domain }} = {{ ad_domain|upper }}
+
+[login]
+	krb4_convert = false
+	krb4_get_tickets = false
+
+[logging]
+	default = FILE:/var/log/kerberos/krb5libs.log
+	kdc = FILE:/var/log/kerberos/krb5kdc.log
+	admin_server = FILE:/var/log/kerberos/kadmind.log
+
+	default_tkt_enctypes = des-cbc-crc des-cbc-md5
+    default_tgs_enctypes = des-cbc-crc des-cbc-md5

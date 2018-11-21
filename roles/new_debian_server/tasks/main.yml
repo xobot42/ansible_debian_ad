@@ -1,0 +1,43 @@
+---
+  - name: Change apt source.list
+    copy: src=sources.list dest=/etc/apt/sources.list owner=root group=root backup=yes
+
+  - name: Upgrade system
+    apt: update-cache=yes upgrade=yes
+
+  - name: Install packages
+    apt: name={{ item }} update_cache=yes state=latest
+    with_items:
+      - net-tools
+      - vim
+      - mc
+      - htop
+      - openssh-client
+      - zabbix-agent
+
+  - name: Change sshd config
+    template: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root backup=yes
+
+  - name: ssh restart
+    service: name=ssh state=restarted
+
+  - name: Change vim config
+    copy: src=vimrc dest=/etc/vim/vimrc owner=root group=root
+
+  - name: Change zabbix config
+    template: src=zabbix_agentd.conf dest=/etc/zabbix/zabbix_agentd.conf owner=root group=root backup=yes
+
+  - name: Restart zabbix_agent
+    service: name=zabbix-agent state=restarted
+
+  - name: Disabel IPv6
+#    import_tasks: /etc/ansible/tasks/disable_ipv6.yml
+    sysctl:
+      name: "{{ item }}"
+      value: 1
+      sysctl_set: yes
+      state: present
+    with_items:
+      - net.ipv6.conf.all.disable_ipv6
+      - net.ipv6.conf.default.disable_ipv6
+      - net.ipv6.conf.lo.disable_ipv6

@@ -1,0 +1,10 @@
+- hosts: all
+  tasks:
+    - authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+    - authorized_key:
+        user: root
+        state: absent
+        key: "{{ lookup('file', '/etc/ansible/id_rsa.pub') }}"

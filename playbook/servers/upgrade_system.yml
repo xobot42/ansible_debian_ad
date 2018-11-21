@@ -1,0 +1,5 @@
+---
+- hosts: external-servers
+  tasks:
+    - name: Update cache
+      apt: update-cache=yes upgrade=yes

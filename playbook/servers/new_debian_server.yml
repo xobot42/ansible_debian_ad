@@ -1,0 +1,4 @@
+---
+  - hosts: file-servers
+    roles:
+      - new_debian_server

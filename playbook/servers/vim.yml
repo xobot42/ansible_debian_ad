@@ -1,0 +1,8 @@
+# vim with config
+- hosts: all
+  tasks:
+    - name: Install vim
+      apt: name=vim update_cache=yes state=latest
+
+    - name: Copy config file
+      copy: src=vimrc dest=/etc/vim/vimrc owner=root group=root   

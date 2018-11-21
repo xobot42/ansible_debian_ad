@@ -1,0 +1,18 @@
+---
+- hosts: vsphere 
+  gather_facts: no 
+  connection: local
+  vars_files:
+    - vars.yml
+
+  tasks:    
+    - name: Stop ssh service
+      vmware_host_service_manager:
+        hostname: vsphere65.saber3d.ru
+        username: {{ vsphere_user }}
+        password: {{ vsphere_pass }}
+        esxi_hostname: "{{item}}"
+        service_name: TSM-SSH
+        state: absent
+        validate_certs: yes
+      loop: "{{ query('inventory_hostnames', 'esxi') }}"

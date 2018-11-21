@@ -1,0 +1,15 @@
+---
+  - name: reboot
+    shell: "sleep 5 && reboot"
+    async: 1
+    poll: 0
+    ignore_errors: true
+
+  - name: wait
+    local_action:
+      module: wait_for
+        host={{ real_ansible_host }}
+        state=started
+        port=22
+        delay=10
+        timeout=100

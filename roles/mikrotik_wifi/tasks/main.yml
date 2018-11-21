@@ -1,0 +1,32 @@
+---
+- name: Generate AP config
+  template: 
+    src: config.j2 
+    dest: /etc/ansible/roles/mikrotik_wifi/files/tmp/temp.rsc
+  delegate_to: localhost
+
+- name: Upload config to router
+  command: scp -r /etc/ansible/roles/mikrotik_wifi/files/{{item.src}} admin@{{inventory_hostname}}:{{item.dest}}
+  loop:
+    - {src: 'tmp/temp.rsc', dest: '/flash/setup.rsc'}
+  delegate_to: localhost
+
+- name: new config
+  command: bash -c "cat /etc/ansible/roles/mikrotik_wifi/files/tmp/temp.rsc | ssh admin@{{inventory_hostname}}"
+  delegate_to: localhost
+
+- name: reboot
+  block:
+    - raw: /system reboot
+      ignore_errors: true
+    - local_action:
+        module: wait_for
+          host={{inventory_hostname}}
+          state=started
+          port=22
+          delay=10
+          timeout=240
+
+#- name: Apply new config
+#  command: bash -c "cat /etc/ansible/roles/mikrotik_wifi/files/reset_and_reboot.rsc | ssh admin@{{inventory_hostname}}"
+#  delegate_to: localhost

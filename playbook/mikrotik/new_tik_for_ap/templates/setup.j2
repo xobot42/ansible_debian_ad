@@ -1,0 +1,26 @@
+:delay 15s
+/ip address
+add address={{ansible_host}}/16 interface=ether1 network=[[[[x.x.x.x]]]]
+/ip route
+add distance=1 gateway=[[[[x.x.x.x]]]]
+/interface wireless cap
+set caps-man-addresses=[[[[x.x.x.x]]]] enabled=yes interfaces=wlan1,wlan2
+/ip dns
+set allow-remote-requests=yes servers=8.8.8.8
+/system identity
+set name=wi-fi_{{inventory_hostname}}
+/system ntp client
+set enabled=yes primary-ntp=0.debian.pool.org
+/ip firewall filter
+add action=accept chain=input comment="defconf: accept ICMP" protocol=icmp
+add action=accept chain=input comment="defconf: accept established,related" \
+    connection-state=established,related
+add action=accept chain=forward comment="defconf: accept established,related" \
+    connection-state=established,related
+add action=drop chain=forward comment="defconf: drop invalid" \
+    connection-state=invalid
+add action=drop chain=input connection-state=invalid
+/snmp
+set contact=Saber3D enabled=yes location={{inventory_hostname}} trap-version=2
+/user set admin password=
+

@@ -1,0 +1,12 @@
+---
+- hosts: new-mikrotik
+  gather_facts: no
+
+- name: include mikrotik_ssh_key.yml
+  include: mikrotik_ssh_key.yml
+
+- name: include mikrotik_upgrade.yml
+  include: mikrotik_upgrade.yml
+
+- name: include mikrotik_cfg.yml
+  include: mikrotik_cfg.yml

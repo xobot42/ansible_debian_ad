@@ -1,0 +1,4 @@
+- hosts: esxi-6.5
+  tasks:
+    - name: copy authorized_keys
+      copy: src=authorized_keys_esxi dest=/etc/ssh/keys-root/authorized_keys

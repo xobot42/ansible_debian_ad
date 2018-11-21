@@ -1,0 +1,13 @@
+---
+  - name: copy ssh_key and config.rsc
+    local_action: raw sshpass -p {{mikrotik_pass}} scp -r {{item.files}} {{mikrotik_admin}}@{{item.host}}:/flash 
+    loop:
+      - { files: '/root/.ssh/id_rsa.pub', host: "{{ query('inventory_hostnames', 'mikrotik-ap') }}" }
+      - { files: '/etc/ansible/roles/mikrotik_new_ap/files/config.rsc', host: "{{ query('inventory_hostnames', 'mikrotik-ap') }}"  }
+
+  - name: enable ssh_key
+    local_action: raw sshpass -p {{mikrotik_pass}} ssh {{mikrotik_user}}@{{item}} 'user ssh-keys import user=admin public-key-file=flash/id_rsa.pub'
+    loop: "{{ query('inventory_hostnames', 'mikrotik-ap') }}"
+
+  - name: enable config
+    raw: /import flash/config.rsc

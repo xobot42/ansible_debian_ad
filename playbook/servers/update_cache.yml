@@ -1,0 +1,12 @@
+---
+- hosts: external-servers 
+  tasks:
+    - name: Update Cache
+      apt: update_cache=yes
+
+    - name: Show Upgrade List
+      raw: apt list --upgradable | awk -F '/' '{print $1}'
+      register: upgrade_list
+
+    - name: Debug register var
+      debug: var=upgrade_list.stdout_lines

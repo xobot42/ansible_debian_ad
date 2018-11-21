@@ -1,4 +1,4 @@
 ---
-- hosts: {{ HOSTS }}
+- hosts: esxi
   roles:
     - zabbix_smart_esxi

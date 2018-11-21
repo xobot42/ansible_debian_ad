@@ -1,0 +1,16 @@
+---
+- hosts: new-mikrotik 
+  gather_facts: no
+
+  tasks:
+    - name: copy template
+      template: src=setup.j2 dest=tmp/setup_{{inventory_hostname}}.rsc
+      delegate_to: localhost
+
+    - name: Upload config to router
+      raw: scp -r tmp/setup_{{inventory_hostname}}.rsc admin@{{inventory_hostname}}:/flash/setup.rsc
+      delegate_to: localhost
+
+    - name: import wifi_config
+      raw: /system reset-configuration skip-backup=yes no-defaults=yes run-after-reset=flash/setup.rsc
+      ignore_errors: true

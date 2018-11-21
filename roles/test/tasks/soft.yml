@@ -1,0 +1,7 @@
+---
+  - set_fact: real_ansible_host={{ ansible_host }}
+  - name: update cache
+    apt: name=htop update_cache=yes state=latest
+    notify:
+      - reboot
+      - wait

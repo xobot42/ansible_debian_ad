@@ -1,0 +1,3 @@
+---
+  - include: soft.yml
+  - include: lsb.yml

@@ -7,8 +7,8 @@
   tasks: 
     - name: copy ssh_key
       local_action: raw sshpass -p {{mikrotik_pass}} scp -o StrictHostKeyChecking=no -r /root/.ssh/id_rsa.pub {{mikrotik_user}}@{{item}}:/flash 
-      loop: "{{ query('inventory_hostnames', 'mikrotik-ap') }}" 
+      loop: "{{ query('inventory_hostnames', 'new-mikrotik') }}" 
 
     - name: enable ssh_key
       local_action: raw sshpass -p {{mikrotik_pass}} ssh {{mikrotik_user}}@{{item}} 'user ssh-keys import user=admin public-key-file=flash/id_rsa.pub'
-      loop: "{{ query('inventory_hostnames', 'mikrotik-ap') }}"
+      loop: "{{ query('inventory_hostnames', 'new-mikrotik') }}"

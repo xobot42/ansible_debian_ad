@@ -1,0 +1,14 @@
+- hosts: esxi 
+  tasks:
+    - name: copy rc.local 
+      copy: src=local.sh dest=/etc/rc.local.d/local.sh mode=1777
+    - name: change cron.d
+      lineinfile:
+        path: /var/spool/cron/crontabs/root
+        line: '*/10 * * * * /usr/bin/python /opt/pyzabbix_send_smart.py'
+        state: absent
+    - name: change cron.d
+      lineinfile: path=/var/spool/cron/crontabs/root line='*/10 * * * * /usr/bin/python /opt/pyzabbix2_send_smart.py'
+    - name: restart crontab
+      raw: kill -HUP $(cat /var/run/crond.pid) && /usr/bin/crond
+

@@ -1,4 +1,4 @@
 ---
-- hosts: {{ HOSTS }}
+- hosts: hard-servers
   roles:
     - zabbix_smart

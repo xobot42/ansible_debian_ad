@@ -1,0 +1,17 @@
+---
+- hosts: esxi-6.5
+  gather_facts: no
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: change config.hostagent
+      raw: vim-cmd hostsvc/advopt/update Config.HostAgent.plugins.solo.enableMob bool true
+
+    - name: create user zabbix1
+      raw: esxcli system account add -i {{ zabbix_username }} -p {{ zabbix_pass }} -c {{ zabbix_pass }} -d zabbix_user_for_monitoring
+      ignore_errors: true
+
+    - name: change roles_type
+      raw: esxcli system  permission set --id {{ zabbix_username }} -r ReadOnly
+      ignore_errors: true

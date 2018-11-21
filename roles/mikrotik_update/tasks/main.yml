@@ -1,0 +1,27 @@
+---
+- set_fact: tik_hosts={{ ansible_host }}
+
+- name: check update
+  raw: /system package update check-for-updates
+  register: update_check
+
+- name: download update
+  when: update_check.stdout.find('New version is available') != -1
+  raw: /system package update download
+  register: update_download
+
+- name: upgrade firmware
+  block:
+    - raw: /system reboot
+      ignore_errors: true
+    - local_action:
+        module: wait_for
+          host={{ tik_hosts }}
+          state=started
+          port=22
+          delay=10
+          timeout=240
+    - raw: /system routerboard upgrade
+    - raw: /system reboot
+      ignore_errors: true
+  when: (update_check.stdout.find('New version is available') != -1) and (update_download.stdout.find('please reboot router') != -1) 

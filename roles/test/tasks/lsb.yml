@@ -1,0 +1,7 @@
+---
+  - name: lsb
+    shell: lsb_release -a
+    register: lsb
+
+  - name: show lsb_release
+    debug: var=lsb.stdout_lines

@@ -1,0 +1,11 @@
+# zabbix-agent with config
+- hosts: mysql 
+  tasks:
+    - name: Install zabbix-agent
+      apt: name=zabbix-agent update_cache=yes state=latest
+
+    - name: Copy config file
+      template: src=zabbix_agentd.conf dest=/etc/zabbix/zabbix_agentd.conf owner=root group=root backup=yes
+      
+    - name: Restart zabbix-agent
+      service: name=zabbix-agent state=restarted

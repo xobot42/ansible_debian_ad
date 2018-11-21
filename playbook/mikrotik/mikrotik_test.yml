@@ -1,0 +1,10 @@
+---
+- hosts: mikrotik-ap
+  gather_facts: no
+  tasks:
+    - name: test
+      raw: /system clock print
+      register: test_time
+
+    - name: Debug register var
+      debug: var=test_time.stdout_lines

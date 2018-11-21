@@ -1,5 +1,5 @@
 ---
-- hosts: mikrotik-ap
+- hosts: new-mikrotik
   gather_facts: no
 
   tasks:
